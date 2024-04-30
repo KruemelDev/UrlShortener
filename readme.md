@@ -2,6 +2,19 @@
 
 ## This is a school computer science project which we are supposed to implement with php.
 
+## Set Up:
+### Linux and Windows:
+- Make sure ````docker```` and ````docker-compose```` is installed [Link to docker to install](https://www.docker.com/)
+- Next navigate to the [docker](./docker/) directory
+- Next run this command ````docker-compose up -d````
+- Now you are ready and can reach your page under the following url [http://127.0.0.1](http://127.0.0.1/)
+
+### Windows only:
+- Download xampp for windows here [Link to apachefriends](https://www.apachefriends.org/)
+- When the download has finished run the installer and navigate to your xampp installation path
+- Next navigate into the ````htdocs```` directory and clone this repository into the folder ````git clone https://github.com/KruemelDev/UrlShortener.git````
+- Next run the [setupProject]() file
+- Now you are ready and can reach your page under the following url [http://127.0.0.1](http://127.0.0.1/)
 ## Functions:
 - 
 ## TODO: 
