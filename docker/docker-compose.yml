@@ -1,0 +1,28 @@
+version: '1.0'
+services:
+  db:
+    container_name: "urlShortener_db"
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD}
+    ports:
+      - "${DATABASE_PORT}:3306"
+    volumes:
+      - ./.urlShortener-db:/var/lib/mysql
+
+  phpmyadmin:
+    container_name: "visualizeUrlShortener-db"
+    image: phpmyadmin/phpmyadmin:latest
+    restart: always
+    depends_on:
+        - db
+    ports:
+        - "8080:80"
+
+  webserver:
+    image: php:apache
+    ports:
+        - "80:80"
+    volumes:
+        - ../src/main/:/var/www/html
