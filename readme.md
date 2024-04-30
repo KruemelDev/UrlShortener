@@ -23,6 +23,7 @@
 - Setup webserver to host our webpages
 - Implement websites to add a path
 - Implement to redirect client to target url
+- Edit setupProjectXampp.bat file to create .htaccess files automatically.
 
 ## Database structure:
 | Id         | path         | target                      |
