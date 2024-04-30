@@ -1,2 +1,3 @@
 .idea/
 docker/.urlShortener-db/
+docker/.env
