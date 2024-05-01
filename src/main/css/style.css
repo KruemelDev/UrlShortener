@@ -1,3 +1,6 @@
+html{
+    height: 250vh;
+}
 #urlInputForm{
     margin-top: 5%;
     margin-left: 30%;
