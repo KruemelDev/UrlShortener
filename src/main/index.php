@@ -11,7 +11,7 @@
 <h1>UrlShortener</h1>
 
 
-<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="get">
+<form action="" method="get">
 
 </form>
 </body>

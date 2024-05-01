@@ -18,11 +18,12 @@ services:
     depends_on:
         - db
     ports:
-        - "$(PHPMYADMIN_PORT):80"
+        - "${PHPMYADMIN_PORT}:80"
 
   webserver:
+    container_name: "urlShortener"
     image: php:apache
     ports:
-        - "$(APACHE_PORT):80"
+        - "${APACHE_PORT}:80"
     volumes:
         - ../src/main/:/var/www/html
