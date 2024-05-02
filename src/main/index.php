@@ -10,26 +10,53 @@
         <link rel="stylesheet" type="text/css" href="css/style.css"/>
     </head>
     <body>
-        <h1><p class="text-center">UrlShortener</p></h1>
-        <h2 class="text-center">TargetUrl</h2>
-        <h3><p style="visibility: hidden" class="text-center text-primary" id="displayTargetUrlText"> qwer</p></h3>
+        <h1 id="heading" class="text-center">UrlShortener</h1>
+
+        <div class="outputUrlAlignment text-center bg-body-secondary p-4 shadow rounded">
+            <h2>Output</h2>
+            <?php
+            for ($i=0; $i<1; $i++) {
+                if (isset($_POST['targetUrl'])) {
+                    $targetUrl = $_POST['targetUrl'];
+                    if(!filter_var($targetUrl, FILTER_VALIDATE_URL)){
+                        echo "<h3 class='text-danger'>Please enter a valid url</h3>";
+                        break;
+
+                    }
+                    $database = new DatabaseCommands("192.168.66.58", "admin", "1234","UrlShortener");
+                    $database->Connect();
+                    $database->CreateTable("Urls");
+                    $shortUrl = $database->CreateShortUrl();
+                    echo "<h3 class='text-success'>$shortUrl</h3>";
+                    $database->InsertUrl($shortUrl, $targetUrl);
+                    $database->CloseConnection();
+
+                }
+            }
 
 
-        <form id="urlInputForm" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" class="align-bottom">
-            <div class="bg-body-secondary p-4 shadow rounded">
-                <div class="alignCenterForm">
-                    <div class="w-30 p-3">
-                        <div class="form-floating mb-3">
-                            <input name="targetUrl" type="url" class="form-control" id="urlInput" placeholder="Url" oninput="displayFormInput()">
-                            <label for="floatingInput">Url</label>
+            ?>
+        </div>
+        <div class="alignFormWithTargetUrl">
+            <h2 class="text-center">TargetUrl</h2>
+            <h3 style="visibility: hidden" class="text-center text-primary" id="displayTargetUrlText">qwer</h3>
+            <form id="urlInputForm" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" >
+                <div class="bg-body-secondary p-4 shadow rounded align-bottom">
+                    <div class="alignCenterForm">
+                        <div class="w-30 p-3">
+                            <div class="form-floating mb-3">
+                                <input name="targetUrl" type="url" class="form-control" id="urlInput" placeholder="Url" oninput="displayFormInput()">
+                                <label for="floatingInput">Url</label>
 
+                            </div>
                         </div>
+                        <button class="btn btn-primary" type="submit">Submit</button>
                     </div>
-                    <button class="btn btn-primary" type="submit">Submit</button>
                 </div>
-            </div>
 
-        </form>
+            </form>
+        </div>
+
     </body>
 </html>
 
@@ -68,7 +95,7 @@ class DatabaseCommands{
         $insertQuery = "INSERT INTO Urls (shortUrl, targetUrl) VALUES ('$shortUrl', '$targetUrl')";
         $this->conn->query($insertQuery);
     }
-    function CreateShortUrl($targetUrl)
+    function CreateShortUrl()
     {
         do{
         $randomString = $this->CreateRandomString();
@@ -76,6 +103,10 @@ class DatabaseCommands{
         }
         while(!$exists);
         return $_SERVER['SERVER_NAME'] . "/" . $randomString;
+    }
+    public function GetTargetUrlByShortUrl($shortUrl)
+    {
+
     }
     private function UrlExists($url){
         $query = "SELECT * FROM Urls WHERE shortUrl = '$url'";
@@ -87,11 +118,11 @@ class DatabaseCommands{
             return false;
         }
     }
-    private function CreateRandomString($length=6){
+    private function CreateRandomString(){
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $randomString = '';
 
-        for ($i = 0; $i < $length; $i++) {
+        for ($i = 0; $i < 6; $i++) {
             $index = rand(0, strlen($characters) - 1);
             $randomString .= $characters[$index];
         }
@@ -100,15 +131,6 @@ class DatabaseCommands{
     }
 }
 
-if (isset($_POST['targetUrl'])) {
-    $targetUrl = $_POST['targetUrl'];
-    $database = new DatabaseCommands("192.168.66.58", "admin", "1234","UrlShortener");
-    $database->Connect();
-    $database->CreateTable("Urls");
-    $shortUrl = $database->CreateShortUrl($targetUrl);
-    echo $shortUrl;
-    $database->InsertUrl($shortUrl, $targetUrl);
-    $database->CloseConnection();
-}
+
 
 ?>
