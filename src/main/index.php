@@ -7,7 +7,7 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
         <script src="js/script.js"></script>
         <title>UrlShorter</title>
-        <link rel="stylesheet" type="text/css" href="css/style.css"/>
+        <link rel="stylesheet" type="text/css" href="css/style.css">
     </head>
     <body>
         <h1 id="heading" class="text-center">UrlShortener</h1>
@@ -15,6 +15,7 @@
         <div class="outputUrlAlignment text-center bg-body-secondary p-4 shadow rounded">
             <h2>Output</h2>
             <?php
+            require "DatabaseCommands.php";
             for ($i=0; $i<1; $i++) {
                 if (isset($_POST['targetUrl'])) {
                     $targetUrl = $_POST['targetUrl'];
@@ -59,78 +60,3 @@
 
     </body>
 </html>
-
-<?php
-class DatabaseCommands{
-    public $serverName;
-    public $databaseUsername;
-    public $databasePassword;
-    public $databaseName;
-
-    public $conn;
-
-    function __construct($serverName, $databaseUsername, $databasePassword, $databaseName) {
-        $this->serverName = $serverName;
-        $this->databaseUsername = $databaseUsername;
-        $this->databasePassword = $databasePassword;
-        $this->databaseName = $databaseName;
-    }
-    function Connect()
-    {
-        $this->conn = new mysqli($this->serverName, $this->databaseUsername, $this->databasePassword, $this->databaseName, 3306);
-        if ($this->conn->connect_error) {
-            die(500);
-        }
-    }
-    function CloseConnection(){
-        $this->conn->close();
-    }
-    function CreateTable($name){
-        $createTableQuery = "CREATE TABLE IF NOT EXISTS $name (id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,shortUrl varchar(255),targetUrl varchar(255))";
-        $this->conn->query($createTableQuery);
-    }
-
-    function InsertUrl($shortUrl, $targetUrl)
-    {
-        $insertQuery = "INSERT INTO Urls (shortUrl, targetUrl) VALUES ('$shortUrl', '$targetUrl')";
-        $this->conn->query($insertQuery);
-    }
-    function CreateShortUrl()
-    {
-        do{
-        $randomString = $this->CreateRandomString();
-        $exists = $this->UrlExists($_SERVER['SERVER_NAME'] . "/" . $randomString);
-        }
-        while(!$exists);
-        return $_SERVER['SERVER_NAME'] . "/" . $randomString;
-    }
-    public function GetTargetUrlByShortUrl($shortUrl)
-    {
-
-    }
-    private function UrlExists($url){
-        $query = "SELECT * FROM Urls WHERE shortUrl = '$url'";
-        $result = $this->conn->query($query);
-        if(isset($result)){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-    private function CreateRandomString(){
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $randomString = '';
-
-        for ($i = 0; $i < 6; $i++) {
-            $index = rand(0, strlen($characters) - 1);
-            $randomString .= $characters[$index];
-        }
-
-        return $randomString;
-    }
-}
-
-
-
-?>
