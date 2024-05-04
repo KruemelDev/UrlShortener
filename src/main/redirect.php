@@ -7,7 +7,7 @@
 </script>
 
 <?php
-require "DatabaseCommands.php";
+include "DatabaseCommands.inc";
 $code = $_SERVER['REQUEST_URI'];
 if ($code == $_SERVER["PHP_SELF"]){
     $code = str_replace("/redirect.php/","", $code);
@@ -30,6 +30,7 @@ function redirect($code){
         echo "<script>redirectExecute('" . $targetUrl . "')</script>";
         die();
     }
+    echo "<script>redirectExecute('http://" . $_SERVER["HTTP_HOST"] . "')</script>";
     $database->CloseConnection();
 
 }?>

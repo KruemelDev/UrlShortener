@@ -15,15 +15,14 @@
         <div class="outputUrlAlignment text-center bg-body-secondary p-4 shadow rounded">
             <h2>Output</h2>
             <?php
-            require "DatabaseCommands.php";
-            for ($i=0; $i<1; $i++) {
-                if (isset($_POST['targetUrl'])) {
-                    $targetUrl = $_POST['targetUrl'];
-                    if(!filter_var($targetUrl, FILTER_VALIDATE_URL)){
-                        echo "<h3 class='text-danger'>Please enter a valid url</h3>";
-                        break;
+            include "DatabaseCommands.inc";
+            if (isset($_POST['targetUrl'])) {
+                $targetUrl = $_POST['targetUrl'];
+                if(!filter_var($targetUrl, FILTER_VALIDATE_URL)){
+                    echo "<h3 class='text-danger'>Please enter a valid url</h3>";
 
-                    }
+                }
+                else{
                     $database = new DatabaseCommands("192.168.66.58", "admin", "1234","UrlShortener");
                     $database->Connect();
                     $database->CreateTable("Urls");
@@ -31,16 +30,17 @@
                     echo "<h3 class='text-success'>$shortUrl</h3>";
                     $database->InsertUrl($shortUrl, $targetUrl);
                     $database->CloseConnection();
-
                 }
+
             }
+
 
 
             ?>
         </div>
         <div class="alignFormWithTargetUrl">
             <h2 class="text-center">TargetUrl</h2>
-            <h3 style="visibility: hidden" class="text-center text-primary" id="displayTargetUrlText">qwer</h3>
+            <h3 style="visibility: hidden" class    ="text-center text-primary" id="displayTargetUrlText">qwer</h3>
             <form id="urlInputForm" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" >
                 <div class="bg-body-secondary p-4 shadow rounded align-bottom">
                     <div class="alignCenterForm">

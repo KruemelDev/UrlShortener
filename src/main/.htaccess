@@ -1,9 +1,20 @@
+Options -Indexes
 RewriteEngine on
 RewriteBase /
 
 RewriteRule ^/?$ /index.php [L]
 
+
+RewriteRule ^css/ - [L]
+RewriteRule ^js/ - [L]
+RewriteRule ^DatabaseCommands.php$ - [L]
+
+
 RewriteCond %{REQUEST_URI} !^/index\.php$
 RewriteRule ^(.*)$ redirect.php [L]
 
-#Weiterleitung für alle anderen URLs
+<FilesMatch "\.inc$">
+    Order deny,allow
+    Deny from all
+    Allow from localhost
+</FilesMatch>

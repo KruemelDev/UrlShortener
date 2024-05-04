@@ -40,7 +40,7 @@ class DatabaseCommands{
             $randomString = $this->CreateRandomString();
             $exists = $this->UrlExists($_SERVER['SERVER_NAME'] . "/" . $randomString);
         }
-        while(!$exists);
+        while($exists);
         return $_SERVER['SERVER_NAME'] . "/" . $randomString;
     }
     public function GetTargetUrlByShortUrl($shortUrl)
