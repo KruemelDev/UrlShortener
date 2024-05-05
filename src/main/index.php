@@ -23,7 +23,9 @@
 
                 }
                 else{
-                    $database = new DatabaseCommands("192.168.66.58", "admin", "1234","UrlShortener");
+                    include "Utility.inc";
+                    $envVariables = getEnvVariables();
+                    $database = new DatabaseCommands($envVariables["SERVER_NAME"], $envVariables["DATABASE_USERNAME"], $envVariables["DATABASE_PASSWORD"], $envVariables["DATABASE_NAME"]);
                     $database->Connect();
                     $database->CreateTable("Urls");
                     $shortUrl = $database->CreateShortUrl();
@@ -41,7 +43,7 @@
         <div class="alignFormWithTargetUrl">
             <h2 class="text-center">TargetUrl</h2>
             <h3 style="visibility: hidden" class    ="text-center text-primary" id="displayTargetUrlText">qwer</h3>
-            <form id="urlInputForm" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" >
+            <form id="urlInputForm" action="/home" method="post" >
                 <div class="bg-body-secondary p-4 shadow rounded align-bottom">
                     <div class="alignCenterForm">
                         <div class="w-30 p-3">

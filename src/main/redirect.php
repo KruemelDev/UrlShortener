@@ -7,6 +7,7 @@
 </script>
 
 <?php
+
 include "DatabaseCommands.inc";
 $code = $_SERVER['REQUEST_URI'];
 if ($code == $_SERVER["PHP_SELF"]){
@@ -21,7 +22,9 @@ else{
 
 
 function redirect($code){
-    $database = new DatabaseCommands("192.168.66.58", "admin", "1234","UrlShortener");
+    include "Utility.inc";
+    $envVariables = getEnvVariables();
+    $database = new DatabaseCommands($envVariables["SERVER_NAME"], $envVariables["DATABASE_USERNAME"], $envVariables["DATABASE_PASSWORD"], $envVariables["DATABASE_NAME"]);
     $database->Connect();
     $shortUrl = $_SERVER['SERVER_NAME'] . $code;
     $targetUrl = $database->GetTargetUrlByShortUrl($shortUrl);
