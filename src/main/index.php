@@ -10,7 +10,21 @@
         <link rel="stylesheet" type="text/css" href="css/style.css">
     </head>
     <body>
-        <h1 id="heading" class="text-center">UrlShortener</h1>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/home">UrlShortener</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                        <a class="nav-link active" aria-current="page" href="/home">Home</a>
+                        <a class="nav-link" href="/deleteUrl">Delete</a>
+                        <a class="nav-link" href="#">Redirect</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
 
         <div class="outputUrlAlignment text-center bg-body-secondary p-4 shadow rounded">
             <h2>Output</h2>
@@ -41,7 +55,7 @@
             ?>
         </div>
         <div class="alignFormWithTargetUrl">
-            <h2 class="text-center">TargetUrl</h2>
+            <h2 class="text-center">Destination</h2>
             <h3 style="visibility: hidden" class    ="text-center text-primary" id="displayTargetUrlText">qwer</h3>
             <form id="urlInputForm" action="/home" method="post" >
                 <div class="bg-body-secondary p-4 shadow rounded align-bottom">
