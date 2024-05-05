@@ -5,14 +5,17 @@
 ## Set Up:
 ### Linux, MacOS and Windows:
 - Make sure ````docker```` and ````docker-compose```` is installed [Link to docker webpage](https://www.docker.com/)
-- Next run this script [setupProjectDockerLinux](./setupProjectDocker.sh) if you are on linux or macos else run this script [setupProjectDockerWindows](./setupProjectDocker.bat)
-- Next navigate to the [docker](./docker/) directory
+  #### Linux, MacOS
+  - Run this [setupProjectDockerLinux](./setupProjectDocker.sh) script
+  #### Windows
+  - Run this [setupProjectDockerWindows](./setupProjectDocker.bat) script
 - Next navigate into the [env](/src/main/env/) directory
   #### Linux, MacOS
-  - Run this [createEnv.sh](/src/main/env/createEnv.sh) file
+  - Run this [createEnv.sh](/src/main/env/createEnv.sh) script
   #### Windows
-  - Run this [createEnv.sh](/src/main/env/createEnv.bat) file
-  
+  - Run this [createEnv.sh](/src/main/env/createEnv.bat) script
+
+- Now navigate to the [docker](./docker/) directory
 - Next run this command ````docker-compose up -d````
 - Now you are ready and can reach your page under the following url [http://127.0.0.1](http://127.0.0.1/)
 
