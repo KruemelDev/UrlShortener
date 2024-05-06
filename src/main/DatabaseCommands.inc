@@ -31,7 +31,8 @@ class DatabaseCommands{
 
     function InsertUrl($shortUrl, $targetUrl)
     {
-        $insertQuery = "INSERT INTO Urls (shortUrl, targetUrl) VALUES ('$shortUrl', '$targetUrl')";
+        $escapedTargetUrl = $this->conn->real_escape_string($targetUrl);
+        $insertQuery = "INSERT INTO Urls (shortUrl, targetUrl) VALUES ('$shortUrl', '$escapedTargetUrl')";
         $this->conn->query($insertQuery);
     }
     function CreateShortUrl()
@@ -45,7 +46,8 @@ class DatabaseCommands{
     }
     public function GetTargetUrlByShortUrl($shortUrl)
     {
-        $getQuery = "SELECT targetUrl FROM Urls WHERE shortUrl = '" . $shortUrl . "'";
+        $escapeShortUrl = $this->conn->real_escape_string($shortUrl);
+        $getQuery = "SELECT targetUrl FROM Urls WHERE shortUrl = '" . $escapeShortUrl . "'";
         $result = $this->conn->query($getQuery);
 
         if ($result && $result->num_rows > 0) {

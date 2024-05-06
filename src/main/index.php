@@ -30,8 +30,9 @@
             <h2>Output</h2>
             <?php
             include "DatabaseCommands.inc";
+
             if (isset($_POST['targetUrl'])) {
-                $targetUrl = $_POST['targetUrl'];
+                $targetUrl = htmlspecialchars($_POST['targetUrl']);
                 if(!filter_var($targetUrl, FILTER_VALIDATE_URL)){
                     echo "<h3 class='text-danger'>Please enter a valid url</h3>";
 
