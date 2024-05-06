@@ -23,8 +23,6 @@
     - Next, you just need to restart the Apache service by running ````service apache2 restart````.
     - Next, you need to restart the container and your server should now be running fine and you can reach it via the above address
 
-Translated with DeepL.com (free version)
-
 ### Windows only:
 - Download xampp for windows here [Link to apachefriends](https://www.apachefriends.org/)
 - When the download has finished run the installer and navigate to your xampp installation path
