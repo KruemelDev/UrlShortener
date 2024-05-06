@@ -13,11 +13,17 @@
   #### Linux, MacOS
   - Run this [createEnv.sh](/src/main/env/createEnv.sh) script
   #### Windows
-  - Run this [createEnv.sh](/src/main/env/createEnv.bat) script
+  - Run this [createEnv.bat](/src/main/env/createEnv.bat) script
 
 - Now navigate to the [docker](./docker/) directory
 - Next run this command ````docker-compose up -d````
 - Now you are ready and can reach your page under the following url [http://127.0.0.1](http://127.0.0.1/)
+  ##### Hint:
+    - If the server is running but you cannot reach the index page, try setting up a2enmod manually by running ````a2enmod rewrite```` in the Docker container.
+    - Next, you just need to restart the Apache service by running ````service apache2 restart````.
+    - Next, you need to restart the container and your server should now be running fine and you can reach it via the above address
+
+Translated with DeepL.com (free version)
 
 ### Windows only:
 - Download xampp for windows here [Link to apachefriends](https://www.apachefriends.org/)
