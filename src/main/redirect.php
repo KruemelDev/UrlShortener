@@ -23,7 +23,7 @@ else{
 
 function redirect($code){
     include "Utility.inc";
-    $envVariables = getEnvVariables();
+    $envVariables = Utility::getEnvVariables('env/.env');
     $database = new DatabaseCommands($envVariables["SERVER_NAME"], $envVariables["DATABASE_USERNAME"], $envVariables["DATABASE_PASSWORD"], $envVariables["DATABASE_NAME"]);
     $database->Connect();
     $shortUrl = $_SERVER['SERVER_NAME'] . $code;

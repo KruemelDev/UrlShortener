@@ -6,7 +6,7 @@ class DatabaseCommands{
     public $databasePassword;
     public $databaseName;
 
-    public $conn;
+    private $conn;
 
     function __construct($serverName, $databaseUsername, $databasePassword, $databaseName) {
         $this->serverName = $serverName;
@@ -25,14 +25,16 @@ class DatabaseCommands{
         $this->conn->close();
     }
     function CreateTable($name){
-        $createTableQuery = "CREATE TABLE IF NOT EXISTS $name (id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,shortUrl varchar(255),targetUrl varchar(255))";
+        $createTableQuery = "CREATE TABLE IF NOT EXISTS $name (id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,shortUrl varchar(255),targetUrl varchar(255), password varchar(255))";
         $this->conn->query($createTableQuery);
     }
 
-    function InsertUrl($shortUrl, $targetUrl)
+    function InsertUrl($shortUrl, $targetUrl, $password)
     {
+        $escapedShortUrl = $this->conn->real_escape_string($shortUrl);
         $escapedTargetUrl = $this->conn->real_escape_string($targetUrl);
-        $insertQuery = "INSERT INTO Urls (shortUrl, targetUrl) VALUES ('$shortUrl', '$escapedTargetUrl')";
+        $escapedPassword = $this->conn->real_escape_string($password);
+        $insertQuery = "INSERT INTO Urls (shortUrl, targetUrl, password) VALUES ('$escapedShortUrl', '$escapedTargetUrl', '$escapedPassword')";
         $this->conn->query($insertQuery);
     }
     function CreateShortUrl()
@@ -60,7 +62,8 @@ class DatabaseCommands{
         return false;
     }
     private function UrlExists($url){
-        $query = "SELECT * FROM Urls WHERE shortUrl = '$url'";
+        $escapedUrl = $this->conn->real_escape_string($url);
+        $query = "SELECT * FROM Urls WHERE shortUrl = '$escapedUrl'";
         $result = $this->conn->query($query);
         if ($result && $result->num_rows > 0) {
             return true;
@@ -77,5 +80,53 @@ class DatabaseCommands{
         }
 
         return $randomString;
+    }
+    public function ShortUrlExists($shortUrl, $password){
+        $escapedShortUrl = $this->conn->real_escape_string($shortUrl);
+        $escapedPassword = $this->conn->real_escape_string($password);
+
+        $query = "SELECT password FROM Urls WHERE shortUrl = '" . $escapedShortUrl . "'";
+        $result = $this->conn->query($query);
+
+        if ($result && $result->num_rows > 0) {
+            while($databaseHashPassword = $result->fetch_assoc()) {
+                if(password_verify($escapedPassword, $databaseHashPassword['password'])) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        return false;
+    }
+    public function GetHashedPassword($shortUrl, $password)
+    {
+        $escapedShortUrl = $this->conn->real_escape_string($shortUrl);
+        $escapedPassword = $this->conn->real_escape_string($password);
+        $query = "SELECT password FROM Urls WHERE shortUrl = '" . $escapedShortUrl . "'";
+        $result = $this->conn->query($query);
+
+        if ($result && $result->num_rows > 0) {
+            while($databaseHashPassword = $result->fetch_assoc()) {
+                if(password_verify($escapedPassword, $databaseHashPassword['password'])) {
+                    return $databaseHashPassword['password'];
+                }
+            }
+            return false;
+        }
+        return false;
+    }
+    public function DeleteShortUrl($shortUrl, $password){
+        $escapedShortUrl = $this->conn->real_escape_string($shortUrl);
+        $deleteQuery = "DELETE FROM Urls WHERE shortUrl = '$escapedShortUrl' AND password = '$password'";
+        if ($this->conn->query($deleteQuery) === TRUE) {
+            if ($this->conn->affected_rows > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+
     }
 }

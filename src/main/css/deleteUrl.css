@@ -1,0 +1,19 @@
+html{
+    height: 100vh;
+}
+.alignDeleteUrlForm{
+    margin-top: 15%;
+}
+#urlDeleteForm{
+    margin-left: 30%;
+    margin-right: 30%;
+    padding-top: 1%;
+    text-align: center;
+}
+#displayTargetUrlText{
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+.alignOutput{
+    margin-top: 8%;
+}

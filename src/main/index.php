@@ -25,33 +25,39 @@
                 </div>
             </div>
         </nav>
-
         <div class="outputUrlAlignment text-center bg-body-secondary p-4 shadow rounded">
             <h2>Output</h2>
             <?php
             include "DatabaseCommands.inc";
+            include "Utility.inc";
 
-            if (isset($_POST['targetUrl'])) {
+            if (isset($_POST['targetUrl']) && isset($_POST["passwordForTarget"])) {
                 $targetUrl = htmlspecialchars($_POST['targetUrl']);
-                if(!filter_var($targetUrl, FILTER_VALIDATE_URL)){
-                    echo "<h3 class='text-danger'>Please enter a valid url</h3>";
-
+                if($_POST["passwordForTarget"] != ""){
+                    $passwordHashed = Utility::hashPassword($_POST["passwordForTarget"]);
+                    if(!filter_var($targetUrl, FILTER_VALIDATE_URL)){
+                        echo "<h3 class='text-danger'>Please enter a valid url</h3>";
+    
+                    }
+                    else{
+                        $envVariables = Utility::getEnvVariables('env/.env');
+                        $database = new DatabaseCommands($envVariables["SERVER_NAME"], $envVariables["DATABASE_USERNAME"], $envVariables["DATABASE_PASSWORD"], $envVariables["DATABASE_NAME"]);
+                        $database->Connect();
+                        $database->CreateTable("Urls");
+                        $shortUrl = $database->CreateShortUrl();
+                        echo "<h3 class='text-success'>$shortUrl</h3>";
+                        $database->InsertUrl($shortUrl, $targetUrl, $passwordHashed);
+                        $database->CloseConnection();
+                    }
                 }
                 else{
-                    include "Utility.inc";
-                    $envVariables = getEnvVariables();
-                    $database = new DatabaseCommands($envVariables["SERVER_NAME"], $envVariables["DATABASE_USERNAME"], $envVariables["DATABASE_PASSWORD"], $envVariables["DATABASE_NAME"]);
-                    $database->Connect();
-                    $database->CreateTable("Urls");
-                    $shortUrl = $database->CreateShortUrl();
-                    echo "<h3 class='text-success'>$shortUrl</h3>";
-                    $database->InsertUrl($shortUrl, $targetUrl);
-                    $database->CloseConnection();
+                    echo "<h3 class='text-danger'>Please enter a valid password</h3>";
+
                 }
+                
+                
 
             }
-
-
 
             ?>
         </div>
@@ -65,6 +71,13 @@
                             <div class="form-floating mb-3">
                                 <input name="targetUrl" type="url" class="form-control" id="urlInput" placeholder="Url" oninput="displayFormInput()">
                                 <label for="floatingInput">Url</label>
+
+                            </div>
+                        </div>
+                        <div class="w-30 p-3">
+                            <div class="form-floating mb-3">
+                                <input name="passwordForTarget" type="password" class="form-control" id="urlInput" placeholder="Password">
+                                <label for="floatingInput">Password</label>
 
                             </div>
                         </div>

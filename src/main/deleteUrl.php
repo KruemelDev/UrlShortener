@@ -24,8 +24,64 @@
         </div>
     </div>
 </nav>
+<div class="alignOutput">
+    <?php
+    if(isset($_POST["deleteUrl"]) && isset($_POST["passwordForDeleteUrl"])){
+        include "Utility.inc";
+        include "DatabaseCommands.inc";
+        $deleteUrl = htmlspecialchars($_POST["deleteUrl"]);
+        $passwordForDeleteUrl = htmlspecialchars($_POST["passwordForDeleteUrl"]);
 
+        $envVariables = Utility::getEnvVariables('env/.env');
+        $database = new DatabaseCommands($envVariables["SERVER_NAME"], $envVariables["DATABASE_USERNAME"], $envVariables["DATABASE_PASSWORD"], $envVariables["DATABASE_NAME"]);
+        $database->Connect();
+        if(!$database->ShortUrlExists($deleteUrl, $passwordForDeleteUrl)){
+            echo "<h3 class='text-danger text-center'>The password, the shortlink or both do not exist</h3>";
+        }else{
+            $password = $database->GetHashedPassword($deleteUrl, $passwordForDeleteUrl);
+            if(!$password){
+                echo "<h3 class='text-danger text-center'>The password, the shortlink or both do not exist</h3>";
+            }
+            else{
+                if($database->DeleteShortUrl($deleteUrl, $password)){
+                    echo "<h3 class='text-success text-center'>The shortlink was deleted successfully</h3>";
+                }
+                else{
+                    echo "<h3 class='text-danger text-center'>The link was not deleted</h3>";
+                }
+            }
 
+            $database->CloseConnection();
+        }
+
+    }
+
+    ?>
+</div>
+<div class="alignDeleteUrlForm">
+    <h2 class="text-center mb-4">Delete</h2>
+    <form id="urlDeleteForm" action="/deleteUrl" method="post">
+        <div class="bg-body-secondary p-4 shadow rounded align-bottom">
+            <div class="alignCenterForm">
+                <div class="w-30 p-3">
+                    <div class="form-floating mb-3">
+                        <input name="deleteUrl" type="text" class="form-control" id="urlInput" placeholder="Url" oninput="displayFormInput()">
+                        <label for="floatingInput">ShortUrl</label>
+                    </div>
+                </div>
+                <div class="w-30 p-3">
+                    <div class="form-floating mb-3">
+                        <input name="passwordForDeleteUrl" type="password" class="form-control" id="urlInput" placeholder="Password">
+                        <label for="floatingInput">Password</label>
+
+                    </div>
+                </div>
+                <button class="btn btn-primary" type="submit">Submit</button>
+            </div>
+        </div>
+
+    </form>
+</div>
 
 </body>
 </html>
