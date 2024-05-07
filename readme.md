@@ -32,10 +32,10 @@
   
 ## Functions:
 - Create new short url
+- Delete short url with password
 - Redirect to other webpages
   
 ## TODO: 
-- Implement feature to delete urls
 - Design webpages
 
 ## Database structure:
