@@ -26,8 +26,8 @@
 ### Windows only:
 - Download xampp for windows here [Link to apachefriends](https://www.apachefriends.org/)
 - When the download has finished run the installer and navigate to your xampp installation path
-- Next clone this repository ````git clone https://github.com/KruemelDev/UrlShortener.git````
-- Next copy all folders from the main directory in the ````htdocs```` of xampp
+- Next copy all folders from the [main](/src/main/) directory in the ````htdocs```` directory of xampp
+- Next run this [createEnv.bat](/src/main/env/createEnv.bat) script
 - Next run the apache server and mysql database
 - Now you are ready and can reach your page under the following url [http://127.0.0.1](http://127.0.0.1/)
   
