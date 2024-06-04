@@ -3,14 +3,14 @@
 ## This is a school computer science project which we are supposed to implement with php.
 
 ## Set Up:
-### Linux, MacOS and Windows:
+### Unix and Windows:
 - Make sure ````docker```` and ````docker-compose```` is installed [Link to docker webpage](https://www.docker.com/)
-  #### Linux, MacOS
+  #### Unix
   - Run this [setupProjectDockerLinux](./setupProjectDocker.sh) script
   #### Windows
   - Run this [setupProjectDockerWindows](./setupProjectDocker.bat) script
 - Next navigate into the [env](/src/main/env/) directory
-  #### Linux, MacOS
+  #### Unix
   - Run this [createEnv.sh](/src/main/env/createEnv.sh) script
   #### Windows
   - Run this [createEnv.bat](/src/main/env/createEnv.bat) script
@@ -35,6 +35,7 @@
 - Create new short url
 - Delete short url with password
 - Redirect to other webpages
+- Edit Destination of a short url
   
 ## TODO: 
 - Design webpages
