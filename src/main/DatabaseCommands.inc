@@ -117,7 +117,8 @@ class DatabaseCommands{
     }
     public function DeleteShortUrl($shortUrl, $password){
         $escapedShortUrl = $this->conn->real_escape_string($shortUrl);
-        $deleteQuery = "DELETE FROM Urls WHERE shortUrl = '$escapedShortUrl' AND password = '$password'";
+        $escapedPassword = $this->conn->real_escape_string($password);
+        $deleteQuery = "DELETE FROM Urls WHERE shortUrl = '$escapedShortUrl' AND password = '$escapedPassword'";
         if ($this->conn->query($deleteQuery) === TRUE) {
             if ($this->conn->affected_rows > 0) {
                 return true;
@@ -128,5 +129,20 @@ class DatabaseCommands{
             return false;
         }
 
+    }
+    public function UpdateDestinationUrl($shortUrl, $newUrl, $password){
+        $escapedShortUrl = $this->conn->real_escape_string($shortUrl);
+        $escapedNewUrl = $this->conn->real_escape_string($newUrl);
+        $escapedPassword = $this->conn->real_escape_string($password);
+        $updateQuery = "UPDATE Urls SET targetUrl = '$escapedNewUrl' WHERE shortUrl = '$escapedShortUrl' AND password = '$escapedPassword'";
+        if ($this->conn->query($updateQuery) === TRUE) {
+            if ($this->conn->affected_rows > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 }

@@ -20,7 +20,7 @@
                     <div class="navbar-nav">
                         <a class="nav-link active" aria-current="page" href="/home">Home</a>
                         <a class="nav-link" href="/deleteUrl">Delete</a>
-                        <a class="nav-link" href="#">Redirect</a>
+                        <a class="nav-link" href="/editUrl">Edit</a>
                     </div>
                 </div>
             </div>
@@ -33,8 +33,10 @@
 
             if (isset($_POST['targetUrl']) && isset($_POST["passwordForTarget"])) {
                 $targetUrl = htmlspecialchars($_POST['targetUrl']);
-                if($_POST["passwordForTarget"] != ""){
-                    $passwordHashed = Utility::hashPassword($_POST["passwordForTarget"]);
+                $password = htmlspecialchars($_POST["passwordForTarget"]);
+                if($_POST["passwordForTarget"] != "")
+                {
+                    $passwordHashed = Utility::hashPassword($password);
                     if(!filter_var($targetUrl, FILTER_VALIDATE_URL)){
                         echo "<h3 class='text-danger'>Please enter a valid url</h3>";
     
@@ -64,9 +66,9 @@
         <div class="alignFormWithTargetUrl">
             <h2 class="text-center">Destination</h2>
             <h3 style="visibility: hidden" class    ="text-center text-primary" id="displayTargetUrlText">qwer</h3>
-            <form id="urlInputForm" action="/home" method="post" >
+            <form id="urlInputForm" action="/home" method="post" autocomplete="off">
                 <div class="bg-body-secondary p-4 shadow rounded align-bottom">
-                    <div class="alignCenterForm">
+                    <div>
                         <div class="w-30 p-3">
                             <div class="form-floating mb-3">
                                 <input name="targetUrl" type="url" class="form-control" id="urlInput" placeholder="Url" oninput="displayFormInput()">

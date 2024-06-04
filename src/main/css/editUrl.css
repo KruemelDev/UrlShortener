@@ -1,0 +1,15 @@
+html{
+    height: 100vh;
+}
+.alignEditUrlForm{
+    margin-top: 15%;
+}
+#urlEditForm{
+    margin-left: 30%;
+    margin-right: 30%;
+    padding-top: 1%;
+    text-align: center;
+}
+.alignOutput{
+    margin-top: 3%;
+}

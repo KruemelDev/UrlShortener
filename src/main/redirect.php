@@ -28,9 +28,10 @@ function redirect($code){
     $database->Connect();
     $shortUrl = $_SERVER['SERVER_NAME'] . $code;
     $targetUrl = $database->GetTargetUrlByShortUrl($shortUrl);
-    if ($targetUrl){
+    $targetUrlDecoded = htmlspecialchars_decode($targetUrl);
+    if ($targetUrlDecoded){
         $database->CloseConnection();
-        echo "<script>redirectExecute('" . $targetUrl . "')</script>";
+        echo "<script>redirectExecute('" . $targetUrlDecoded . "')</script>";
         die();
     }
     echo "<script>redirectExecute('http://" . $_SERVER["HTTP_HOST"] . "')</script>";

@@ -5,6 +5,7 @@ RewriteBase /
 RewriteRule ^/?$ /index.php [L]
 RewriteRule ^home$ index.php [L]
 RewriteRule ^deleteUrl$ deleteUrl.php [L]
+RewriteRule ^editUrl$ editUrl.php [L]
 
 
 RewriteRule ^css/ - [L]
@@ -12,6 +13,7 @@ RewriteRule ^js/ - [L]
 
 RewriteCond %{REQUEST_URI} !^/index\.php$
 RewriteCond %{REQUEST_URI} !^/deleteUrl\.php$
+RewriteCond %{REQUEST_URI} !^/editUrl\.php$
 RewriteRule ^(.*)$ redirect.php [L]
 
 <FilesMatch "env/\.(sh|bat|env)$">
